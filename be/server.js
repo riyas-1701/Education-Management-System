@@ -20,11 +20,6 @@ app.use(
 app.use(cookieParser());
 app.use("/", authRoutes);
 
-// GET API
-app.get("/", (req, res) => {
-    res.send("Hello Lily");
-});
-
 // Start Server
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

@@ -1,0 +1,341 @@
+/* ============================================================
+   auth.module.css  –  shared styles for Signin & Signup pages
+   ============================================================ */
+
+/* ── Page shell ── */
+
+:global(*) {
+  box-sizing: border-box;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* ── Navbar ── */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: -0.3px;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navHint {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.navBtn {
+  padding: 8px 20px;
+  border: 1.5px solid #FF6636;
+  border-radius: 6px;
+  color: #FF6636;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  background: transparent;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.navBtn:hover {
+  background: #FF6636;
+  color: #ffffff;
+}
+
+/* ── Main split layout ── */
+.main {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 64px);
+}
+
+/* ── Left panel ── */
+.leftPanel {
+  flex: 0 0 44%;
+  background: #e8e8f5;
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+}
+
+/* ── Right panel ── */
+.rightPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  background: #ffffff;
+}
+
+/* ── Form card ── */
+.formCard {
+  width: 100%;
+  max-width: 480px;
+}
+
+.heading {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+  margin-bottom: 28px;
+  line-height: 1.3;
+}
+
+/* ── Form ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* side-by-side rows */
+.twoCol {
+  display: flex;
+  gap: 12px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #111827;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+.input:focus {
+  border-color: #FF6636;
+  box-shadow: 0 0 0 3px rgba(255, 102, 54, 0.1);
+}
+
+/* ── Password wrapper ── */
+.passwordWrapper {
+  position: relative;
+}
+
+.passwordWrapper .input {
+  padding-right: 44px;
+}
+
+.eyeBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Submit row ── */
+.submitRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+/* Orange action button (Sign In / Create Account) */
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 28px;
+  background: #FF6636;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.actionBtn:hover {
+  background: #e85520;
+  transform: translateY(-1px);
+}
+
+.actionBtn:active {
+  transform: translateY(0);
+}
+
+/* ── Terms ── */
+.termsLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox {
+  width: 15px;
+  height: 15px;
+  accent-color: #FF6636;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.termsLink {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.termsLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Social sign-in divider ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.dividerText {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+}
+
+/* ── Social buttons ── */
+.socialRow {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 6px;
+  background: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  flex: 1;
+  justify-content: center;
+}
+
+.socialBtn:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+  background: #fafafa;
+}
+
+.socialBtnFb {
+  border-color: #1877F2;
+  color: #1877F2;
+}
+
+.socialBtnFb:hover {
+  background: #f0f5ff;
+  border-color: #1877F2;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .leftPanel {
+    display: none;
+  }
+
+  .twoCol {
+    flex-direction: column;
+  }
+
+  .socialRow {
+    flex-direction: column;
+  }
+
+  .submitRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actionBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

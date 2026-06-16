@@ -1,4 +1,4 @@
-import Signin from "../../../Components/Signin";
+import Signin from "../../../Components/Auth/Signin";
 
 export const metadata = {
   title: "Signin to Account | E-tutor",

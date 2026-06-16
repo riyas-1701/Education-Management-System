@@ -1,4 +1,4 @@
-import Signup from "../../../Components/Signup";
+import Signup from "../../../Components/Auth/Signup";
 
 export const metadata = {
     title: "Create Account | E-tutor",
