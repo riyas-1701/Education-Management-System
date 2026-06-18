@@ -1,0 +1,159 @@
+/* components/CategorySection/category.module.css */
+.section {
+    width: 100%;
+    background: #ffffff;
+    padding: 64px 0;
+}
+
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.heading {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1d2026;
+    margin-bottom: 40px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.card:hover {
+    border-color: #ff6636;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.iconBox {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardText {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.categoryName {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1d2026;
+}
+
+.courseCount {
+    font-size: 13px;
+    color: #8a8f9c;
+}
+
+.footerText {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 14px;
+    color: #6e7485;
+}
+
+.browseAll {
+    color: #ff6636;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Color variants — each category keeps a fixed color, not alternating by position */
+.purple {
+    background: #eef0ff;
+    color: #5b5fc7;
+}
+
+.green {
+    background: #e7f8ee;
+    color: #16a34a;
+}
+
+.orange {
+    background: #fdeee7;
+    color: #ea580c;
+}
+
+.pink {
+    background: #fdeef0;
+    color: #e11d48;
+}
+
+.solidOrange {
+    background: #ff6636;
+    color: #ffffff;
+}
+
+.gray {
+    background: #f1f2f4;
+    color: #4e5566;
+}
+
+.blue {
+    background: #eef0ff;
+    color: #4338ca;
+}
+
+.lightGray {
+    background: #f1f2f4;
+    color: #4e5566;
+}
+
+.peach {
+    background: #fef3e7;
+    color: #d97706;
+}
+
+.rose {
+    background: #fdeef0;
+    color: #be185d;
+}
+
+.mint {
+    background: #e7f8ee;
+    color: #15803d;
+}
+
+.cream {
+    background: #fef3e7;
+    color: #b45309;
+}
+
+@media (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .heading {
+        font-size: 24px;
+    }
+}

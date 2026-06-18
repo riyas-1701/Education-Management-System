@@ -1,0 +1,66 @@
+.card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.starIcon {
+    color: #fbbf24;
+    fill: #fbbf24;
+    size: 10px;
+    stroke: #f59e0b;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 240px;
+}
+
+.image {
+    object-fit: cover;
+}
+
+.content {
+    padding: 16px;
+    text-align: center;
+}
+
+.name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 6px;
+}
+
+.role {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #374151;
+    font-weight: 500;
+}
+
+.students {
+    color: #6b7280;
+    font-size: 14px;
+}

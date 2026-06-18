@@ -45,7 +45,7 @@ exports.getCategories = async (req, res) => {
     try {
         const categories = await Category.find().sort({
             category_name: 1,
-        });
+        }).limit(12);
 
         return res.status(200).json({
             success: true,

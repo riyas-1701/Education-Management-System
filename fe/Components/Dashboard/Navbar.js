@@ -1,5 +1,10 @@
 "use client";
-
+import {
+    FiBell,
+    FiHeart,
+    FiShoppingCart,
+    FiSearch
+} from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./navbar.module.css";
@@ -40,9 +45,9 @@ export default function Navbar() {
 
             {/* Right Actions */}
             <div className={styles.actions}>
-                <button className={styles.iconBtn}>🔔</button>
-                <button className={styles.iconBtn}>♡</button>
-                <button className={styles.iconBtn}>🛒</button>
+                <button className={styles.iconBtn}><FiBell /></button>
+                <button className={styles.iconBtn}><FiHeart /></button>
+                <button className={styles.iconBtn}><FiShoppingCart /></button>
 
                 <Link href="/signup" className={styles.createBtn}>
                     Create Account

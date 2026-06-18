@@ -1,0 +1,36 @@
+.section {
+    width: 100%;
+    padding: 80px 0;
+}
+
+.title {
+    text-align: center;
+    font-size: 48px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 60px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+}
+
+.bottomText {
+    margin-top: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    color: #6b7280;
+    font-size: 15px;
+}
+
+.button {
+    border: none;
+    background: transparent;
+    color: #ff6636;
+    font-weight: 600;
+    cursor: pointer;
+}

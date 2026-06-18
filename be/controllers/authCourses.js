@@ -77,19 +77,205 @@ exports.createCourse = async (req, res) => {
         });
     }
 };
-
-exports.getCourses = async (req, res) => {
+exports.getDashboardData = async (req, res) => {
     try {
-        const courses = await Course.find();
+        const bestSellingCourses = await Course.aggregate([
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "category_id",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            {
+                $unwind: "$category"
+            },
+            {
+                $sort: {
+                    students_enrolled: -1
+                }
+            },
+            {
+                $limit: 12
+            },
+            {
+                $project: {
+                    _id: 1,
+                    category_name: "$category.category_name",
+                    course_name: 1,
+                    course_description: 1,
+                    course_price: 1,
+                    course_rating: 1,
+                    students_enrolled: 1,
+                    course_image: 1
+                }
+            }
+        ]);
+
+        const topRatedCourses = await Course.aggregate([
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "category_id",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            {
+                $unwind: "$category"
+            },
+            {
+                $sort: {
+                    course_rating: -1
+                }
+            },
+            {
+                $limit: 8
+            },
+            {
+                $project: {
+                    _id: 1,
+                    category_name: "$category.category_name",
+                    course_name: 1,
+                    course_description: 1,
+                    course_price: 1,
+                    course_rating: 1,
+                    students_enrolled: 1,
+                    course_image: 1
+                }
+            }
+        ]);
+
+        const recentCourses = await Course.aggregate([
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "category_id",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            {
+                $unwind: "$category"
+            },
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            },
+            {
+                $limit: 8
+            },
+            {
+                $project: {
+                    _id: 1,
+                    category_name: "$category.category_name",
+                    course_name: 1,
+                    course_description: 1,
+                    course_price: 1,
+                    course_rating: 1,
+                    students_enrolled: 1,
+                    course_image: 1
+                }
+            }
+        ]);
+
+        const instructors = await Course.aggregate([
+            {
+                $group: {
+                    _id: "$instructor_name",
+                    instructor_id: { $first: "$instructor_id" },
+                    instructor_name: { $first: "$instructor_name" },
+                    instructor_profile: { $first: "$instructor_profile" },
+                    instructor_rating: {
+                        $max: {
+                            $toDouble: "$instructor_rating"
+                        }
+                    }
+                }
+            },
+            {
+                $sort: {
+                    instructor_rating: -1
+                }
+            },
+            {
+                $limit: 5
+            },
+            {
+                $project: {
+                    _id: 0,
+                    instructor_id: 1,
+                    instructor_name: 1,
+                    instructor_profile: 1,
+                    instructor_rating: 1
+                }
+            }
+        ]);
+
         return res.status(200).json({
             success: true,
-            count: courses.length,
-            data: courses,
+            data: {
+                bestSellingCourses,
+                topRatedCourses,
+                recentCourses,
+                instructors
+            }
         });
-    } catch (err) {
+
+    } catch (error) {
+        console.error("Dashboard Error:", error);
+
         return res.status(500).json({
             success: false,
-            message: err.message,
+            message: error.message
         });
     }
 };
+// exports.getDashboardData = async (req, res) => {
+//     try {
+//         const courses = await Course.aggregate([
+//             {
+//                 $lookup: {
+//                     from: "categories",
+//                     localField: "category_id",
+//                     foreignField: "_id",
+//                     as: "category"
+//                 }
+//             },
+//             {
+//                 $unwind: "$category"
+//             },
+//             {
+//                 $project: {
+//                     _id: 1,
+//                     category_name: "$category.category_name",
+//                     course_name: 1,
+//                     course_description: 1,
+//                     course_price: 1,
+//                     course_rating: 1,
+//                     students_enrolled: 1
+//                 }
+//             },
+//             {
+//                 $limit: 12
+//             }
+//         ]);
+
+//         return res.status(200).json({
+//             success: true,
+//             count: courses.length,
+//             data: {
+//                 bestSellingCourses,
+//                 topRatedCourses,
+//                 recentCourses
+//             }
+//         });
+//     } catch (err) {
+//         return res.status(500).json({
+//             success: false,
+//             message: err.message,
+//         });
+//     }
+// };
