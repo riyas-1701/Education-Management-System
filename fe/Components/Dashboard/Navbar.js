@@ -8,8 +8,23 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./navbar.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar() {
+    const { user, setUser } = useAuth() || {};
+
+    const handleLogout = async () => {
+        try {
+            await fetch("http://localhost:5000/logout", {
+                method: "POST",
+                credentials: "include",
+            });
+            if (setUser) setUser(null);
+        } catch (error) {
+            console.error("Logout error", error);
+        }
+    };
+
     return (
         <nav className={styles.navbar}>
             {/* Logo */}
@@ -49,13 +64,30 @@ export default function Navbar() {
                 <button className={styles.iconBtn}><FiHeart /></button>
                 <button className={styles.iconBtn}><FiShoppingCart /></button>
 
-                <Link href="/signup" className={styles.createBtn}>
-                    Create Account
-                </Link>
+                {user ? (
+                    <>
+                        <button className={styles.createBtn}>
+                            {user.name}
+                        </button>
 
-                <Link href="/signin" className={styles.signInBtn}>
-                    Sign In
-                </Link>
+                        <button
+                            className={styles.signInBtn}
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <Link href="/signup" className={styles.createBtn}>
+                            Create Account
+                        </Link>
+
+                        <Link href="/signin" className={styles.signInBtn}>
+                            Sign In
+                        </Link>
+                    </>
+                )}
             </div>
         </nav>
     );

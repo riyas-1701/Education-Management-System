@@ -1,11 +1,21 @@
 "use client";
-
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import AuthLayout from "./AuthLayout";
 import PasswordInput from "./PasswordInput";
 import styles from "./auth.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Signup() {
+    const router = useRouter();
+    const { user, setUser, checked } = useAuth() || {};
+
+    useEffect(() => {
+        if (checked && user) {
+            router.replace("/dashboard");
+        }
+    }, [checked, user, router]);
+
     const [form, setForm] = useState({
         name: "",
         username: "",
@@ -13,6 +23,11 @@ export default function Signup() {
         password: "",
         confirmPassword: "",
     });
+
+    // Prevent flash of the form if checking or already logged in
+    if (!checked || user) {
+        return null;
+    }
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -26,6 +41,7 @@ export default function Signup() {
             const res = await fetch("http://localhost:5000/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify({
                     name: form.name,
                     username: form.username,
@@ -35,8 +51,9 @@ export default function Signup() {
             });
             const data = await res.json();
             if (data.success) {
+                if (setUser) setUser(data?.data?.loggedInUser);
                 alert("Account created successfully!");
-                window.location.href = "/signin";
+                router.replace("/dashboard");
             } else {
                 alert(data.message || "Signup failed.");
             }

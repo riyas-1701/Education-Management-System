@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import styles from "./hero.module.css";
-
+import { useAuth } from "../../context/AuthContext";
+import Link from "next/link";
 export default function HeroSection({
     title = "Learn with expert anytime anywhere",
     description = "Our mission is to help people to find the best course online and learn with expert anytime, anywhere.",
-    buttonText = "Create Account",
     imageSrc = "/Images.svg",
 }) {
+    const { user, setUser } = useAuth() || {};
     return (
         <section className={styles.hero}>
             <div className={styles.content}>
@@ -21,9 +22,15 @@ export default function HeroSection({
                         {description}
                     </p>
 
-                    <button className={styles.ctaButton}>
-                        {buttonText}
-                    </button>
+                    {user ? (
+                        <button className={styles.ctaButton}>
+                            Discovery
+                        </button>
+                    ) : (
+                        <Link href="/signup" className={styles.ctaButton}>
+                            Create Account
+                        </Link>
+                    )}
                 </div>
 
                 <div className={styles.right}>

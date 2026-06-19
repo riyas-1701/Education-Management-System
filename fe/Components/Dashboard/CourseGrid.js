@@ -3,7 +3,7 @@
 import CourseCard from "./CourseCard";
 import styles from "./courseGrid.module.css";
 
-export default function CourseGrid({ title, courses = [], showButton = false }) {
+export default function CourseGrid({ title, courses = [], showButton = true }) {
     return (
         <section className={styles.section} style={{}}>
             <div className={styles.container}>
@@ -16,18 +16,13 @@ export default function CourseGrid({ title, courses = [], showButton = false }) 
                 </div>
             </div>
 
-            {showButton && <button style={{
-                "marginTop": "28px",
-                "text-decoration": "none",
-                "background": "#fff0eb",
-                "color": "#ff6636",
-                "padding": "12px 18px",
-                "font-size": "14px",
-                "font-weight": 600,
-                "textAlign": "center"
-            }}>
-                Browse All
-            </button>}
+            {showButton && (
+                <div className={styles.buttonWrapper}>
+                    <button className={styles.browseBtn}>
+                        Browse All
+                    </button>
+                </div>
+            )}
         </section >
     );
 }

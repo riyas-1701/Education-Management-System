@@ -26,8 +26,28 @@ exports.signup = async (req, res) => {
             email,
             password: hashedPassword,
         });
+        const token = jwt.sign(
+            {
+                id: user._id, name: user.name, email: user.email
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "7d",
+            }
+        );
 
-        sendResponse.created(res, "Signup Successful", user);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+        sendResponse.success(res, "Signup Successful, Welcome to Dashboard!", {
+            loggedInUser: {
+                _id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
     } catch (error) {
         console.error(error);
         return sendResponse.serverError(res, error.message);
@@ -71,5 +91,33 @@ exports.login = async (req, res) => {
     } catch (error) {
         console.error(error);
         return sendResponse.serverError(res, error.message)
+    }
+};
+
+exports.logout = (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: false,       // match exactly what you used when setting it
+        sameSite: "strict",
+    });
+    sendResponse.success(res, "Logged out successfully");
+}
+
+exports.getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+        if (!user) {
+            return sendResponse.notFound(res, "User not found");
+        }
+        sendResponse.success(res, "User fetched successfully", {
+            loggedInUser: {
+                _id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return sendResponse.serverError(res, error.message);
     }
 };

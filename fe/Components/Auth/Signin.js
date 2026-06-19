@@ -1,12 +1,26 @@
 "use client";
-
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import AuthLayout from "./AuthLayout";
 import PasswordInput from "./PasswordInput";
 import styles from "./auth.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Signin() {
+    const router = useRouter();
+    const { user, setUser, checked } = useAuth() || {};
     const [form, setForm] = useState({ email: "", password: "" });
+
+    useEffect(() => {
+        if (checked && user) {
+            router.replace("/dashboard");
+        }
+    }, [checked, user, router]);
+
+    // Prevent flash of the form if checking or already logged in
+    if (!checked || user) {
+        return null; 
+    }
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -21,7 +35,9 @@ export default function Signin() {
             });
             const data = await res.json();
             if (data.success) {
-                window.location.href = "/";
+                if (setUser) setUser(data?.data?.loggedInUser);
+                router.replace("/dashboard"); //can't go back
+                // router.push -- can go back
             } else {
                 alert(data.message || "Login failed.");
             }

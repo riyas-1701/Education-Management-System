@@ -92,8 +92,15 @@ exports.getDashboardData = async (req, res) => {
                 $unwind: "$category"
             },
             {
+                $addFields: {
+                    course_price: {
+                        $toDouble: "$course_price"
+                    }
+                }
+            },
+            {
                 $sort: {
-                    students_enrolled: -1
+                    course_price: -1
                 }
             },
             {
@@ -279,3 +286,52 @@ exports.getDashboardData = async (req, res) => {
 //         });
 //     }
 // };
+
+exports.getAllCourses = async (req, res) => {
+    try {
+        const courses = await Course.aggregate([
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "category_id",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            {
+                $unwind: "$category"
+            },
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    category_name: "$category.category_name",
+                    course_name: 1,
+                    course_description: 1,
+                    course_price: 1,
+                    course_rating: 1,
+                    students_enrolled: 1,
+                    course_image: 1,
+                    createdAt: 1
+                }
+            }
+        ]);
+
+        return res.status(200).json({
+            success: true,
+            data: courses
+        });
+
+    } catch (error) {
+        console.error("Get All Courses Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};

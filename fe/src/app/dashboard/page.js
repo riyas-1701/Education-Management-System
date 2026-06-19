@@ -27,7 +27,7 @@ export default function DashboardUI() {
     const fetchCategories = async () => {
         try {
             const response = await fetch(
-                "http://localhost:5000/get-categories"
+                "http://localhost:5000/get-categories", { credentials: "include" }
             );
 
             const result = await response.json();
@@ -46,7 +46,8 @@ export default function DashboardUI() {
     const fetchCourses = async () => {
         try {
             const response = await fetch(
-                "http://localhost:5000/get-courses"
+                "http://localhost:5000/get-courses",
+                { credentials: "include" }
             );
 
             const result = await response.json();
@@ -75,7 +76,7 @@ export default function DashboardUI() {
 
             {/* Full-width Hero */}
             <PatternSection
-                height="600px"
+                height="500px"
                 bgColor={COLORS.lightgrey}
                 contained={false}
             >
@@ -103,7 +104,7 @@ export default function DashboardUI() {
                 height="auto"
                 bgColor={COLORS.white}
             >
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingBottom: '40px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <CourseGrid
                         title="Recently Added Courses"
                         courses={recentCourses}

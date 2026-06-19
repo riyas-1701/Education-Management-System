@@ -3,12 +3,15 @@ import Image from "next/image";
 
 export default function Footer() {
     return (
-        <footer style={{ position: "relative", width: "100%", height: "400px" }}>
-            <Image
+        <footer>
+            <img
                 src="/Footer.svg"
-                alt="Footer Background"
-                fill
-                style={{ objectFit: "cover" }}
+                alt="Footer"
+                style={{
+                    width: "100%",
+                    height: "auto",
+                    display: "block",
+                }}
             />
         </footer>
     );

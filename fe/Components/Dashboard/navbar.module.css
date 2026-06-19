@@ -72,6 +72,7 @@
     text-decoration: none;
     background: #fff0eb;
     color: #ff6636;
+    cursor: pointer;
     padding: 12px 18px;
     font-size: 14px;
     font-weight: 600;
@@ -81,7 +82,22 @@
     text-decoration: none;
     background: #ff6636;
     color: white;
+    cursor: pointer;
     padding: 12px 20px;
     font-size: 14px;
     font-weight: 600;
+}
+
+.userLogo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ff6636;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
 }
