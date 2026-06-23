@@ -9,27 +9,33 @@ exports.createCourse = async (req, res) => {
     try {
         const {
             category_id,
-            course_name,
+            course_title,
+            course_subtitle,
             course_description,
+            course_for,
             course_price,
             course_rating,
+            course_level,
             course_duration,
             students_enrolled,
             instructor_id,
             instructor_name,
             instructor_profile,
+            instructor_description,
             instructor_rating
         } = req.body;
 
         // Required fields validation
         if (
             !category_id ||
-            !course_name ||
+            !course_title ||
+            !course_subtitle ||
             !course_description ||
             !course_price ||
             !instructor_id ||
             !instructor_name ||
-            !instructor_profile
+            !instructor_profile ||
+            !instructor_description
         ) {
             return res.status(400).json({
                 success: false,
@@ -39,7 +45,7 @@ exports.createCourse = async (req, res) => {
 
         // Check if course already exists
         const existingCourse = await Course.findOne({
-            course_name: course_name.trim(),
+            course_title: course_title.trim(),
         });
 
         if (existingCourse) {
@@ -52,7 +58,8 @@ exports.createCourse = async (req, res) => {
         // Create course
         const course = await Course.create({
             category_id,
-            course_name: course_name.trim(),
+            course_title: course_title.trim(),
+            course_subtitle,
             course_description,
             course_price,
             course_rating,
@@ -61,6 +68,7 @@ exports.createCourse = async (req, res) => {
             instructor_id,
             instructor_name,
             instructor_profile,
+            instructor_description,
             instructor_rating,
         });
 
@@ -110,7 +118,7 @@ exports.getDashboardData = async (req, res) => {
                 $project: {
                     _id: 1,
                     category_name: "$category.category_name",
-                    course_name: 1,
+                    course_title: 1,
                     course_description: 1,
                     course_price: 1,
                     course_rating: 1,
@@ -144,7 +152,7 @@ exports.getDashboardData = async (req, res) => {
                 $project: {
                     _id: 1,
                     category_name: "$category.category_name",
-                    course_name: 1,
+                    course_title: 1,
                     course_description: 1,
                     course_price: 1,
                     course_rating: 1,
@@ -178,7 +186,7 @@ exports.getDashboardData = async (req, res) => {
                 $project: {
                     _id: 1,
                     category_name: "$category.category_name",
-                    course_name: 1,
+                    course_title: 1,
                     course_description: 1,
                     course_price: 1,
                     course_rating: 1,
@@ -240,52 +248,7 @@ exports.getDashboardData = async (req, res) => {
         });
     }
 };
-// exports.getDashboardData = async (req, res) => {
-//     try {
-//         const courses = await Course.aggregate([
-//             {
-//                 $lookup: {
-//                     from: "categories",
-//                     localField: "category_id",
-//                     foreignField: "_id",
-//                     as: "category"
-//                 }
-//             },
-//             {
-//                 $unwind: "$category"
-//             },
-//             {
-//                 $project: {
-//                     _id: 1,
-//                     category_name: "$category.category_name",
-//                     course_name: 1,
-//                     course_description: 1,
-//                     course_price: 1,
-//                     course_rating: 1,
-//                     students_enrolled: 1
-//                 }
-//             },
-//             {
-//                 $limit: 12
-//             }
-//         ]);
 
-//         return res.status(200).json({
-//             success: true,
-//             count: courses.length,
-//             data: {
-//                 bestSellingCourses,
-//                 topRatedCourses,
-//                 recentCourses
-//             }
-//         });
-//     } catch (err) {
-//         return res.status(500).json({
-//             success: false,
-//             message: err.message,
-//         });
-//     }
-// };
 
 exports.getAllCourses = async (req, res) => {
     try {
@@ -310,7 +273,7 @@ exports.getAllCourses = async (req, res) => {
                 $project: {
                     _id: 1,
                     category_name: "$category.category_name",
-                    course_name: 1,
+                    course_title: 1,
                     course_description: 1,
                     course_price: 1,
                     course_rating: 1,
@@ -334,4 +297,76 @@ exports.getAllCourses = async (req, res) => {
             message: error.message
         });
     }
-};
+};
+
+exports.getAllInstructors = async (req, res) => {
+    try {
+        const instructors = await Course.aggregate([
+            {
+                $group: {
+                    _id: "$instructor_name",
+                    instructor_id: { $first: "$instructor_id" },
+                    instructor_name: { $first: "$instructor_name" },
+                    instructor_profile: { $first: "$instructor_profile" },
+                    instructor_rating: {
+                        $max: {
+                            $toDouble: "$instructor_rating"
+                        }
+                    }
+                }
+            },
+            {
+                $sort: {
+                    instructor_rating: -1
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    instructor_id: 1,
+                    instructor_name: 1,
+                    instructor_profile: 1,
+                    instructor_rating: 1
+                }
+            }
+        ]);
+
+        return res.status(200).json({
+            success: true,
+            data: instructors
+        });
+
+    } catch (error) {
+        console.error("Get All Instructors Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+exports.getCourseDetails = async(req, res)=>{
+    try{
+        const course = await Course.findById(req.params.id).populate('category_id');
+
+        if(!course){
+            return res.status(404).json({
+                success: false,
+                message: "Course not found"
+            })
+        }
+
+        console.log("coursecoursecourse ::::::::: ", course)
+        return res.status(200).json({
+            success: true,
+            course
+        });
+    }catch(error){
+        console.error("Get Course Details Error:", error);
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}

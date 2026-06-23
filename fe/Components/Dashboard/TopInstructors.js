@@ -1,5 +1,6 @@
 import styles from "./topInstructors.module.css";
 import InstructorCard from "./InstructorCard";
+import Link from "next/link";
 
 export default function TopInstructors({ instructors = [] }) {
     return (
@@ -24,9 +25,11 @@ export default function TopInstructors({ instructors = [] }) {
                     Start teaching & earning now!
                 </span>
 
-                <button className={styles.button}>
-                    Become Instructor →
-                </button>
+                <Link href="/courses?view=instructors">
+                    <button className={styles.button}>
+                        Become Instructor →
+                    </button>
+                </Link>
             </div>
         </section>
     );

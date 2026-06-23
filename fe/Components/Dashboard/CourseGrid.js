@@ -2,8 +2,9 @@
 "use client";
 import CourseCard from "./CourseCard";
 import styles from "./courseGrid.module.css";
+import Link from "next/link";
 
-export default function CourseGrid({ title, courses = [], showButton = true }) {
+export default function CourseGrid({ title, courses = [], showButton = true, browseAllLink = "/courses" }) {
     return (
         <section className={styles.section} style={{}}>
             <div className={styles.container}>
@@ -18,9 +19,11 @@ export default function CourseGrid({ title, courses = [], showButton = true }) {
 
             {showButton && (
                 <div className={styles.buttonWrapper}>
-                    <button className={styles.browseBtn}>
-                        Browse All
-                    </button>
+                    <Link href={browseAllLink}>
+                        <button className={styles.browseBtn}>
+                            Browse All
+                        </button>
+                    </Link>
                 </div>
             )}
         </section >

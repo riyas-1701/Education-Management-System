@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import {
     FiBell,
     FiHeart,
@@ -12,6 +13,7 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar() {
     const { user, setUser } = useAuth() || {};
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const handleLogout = async () => {
         try {
@@ -35,7 +37,7 @@ export default function Navbar() {
                     width={34}
                     height={34}
                 />
-                <span className={styles.logoText}>E-tutor</span>
+                <Link href="/dashboard" className={styles.logoText}>E-tutor</Link>
             </div>
 
             {/* Browse Dropdown */}
@@ -66,16 +68,35 @@ export default function Navbar() {
 
                 {user ? (
                     <>
-                        <button className={styles.createBtn}>
-                            {user.name}
-                        </button>
+                        <div className={styles.userProfileContainer}>
+                            <button
+                                className={styles.userLogo}
+                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                            >
+                                {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                            </button>
 
-                        <button
-                            className={styles.signInBtn}
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </button>
+                            {dropdownOpen && (
+                                <div className={styles.dropdownMenu}>
+                                    <Link
+                                        href="/create-course"
+                                        className={styles.dropdownItem}
+                                        onClick={() => setDropdownOpen(false)}
+                                    >
+                                        Profile
+                                    </Link>
+                                    <button
+                                        className={styles.dropdownItem}
+                                        onClick={() => {
+                                            setDropdownOpen(false);
+                                            handleLogout();
+                                        }}
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </>
                 ) : (
                     <>

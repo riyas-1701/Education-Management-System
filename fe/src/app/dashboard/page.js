@@ -98,6 +98,7 @@ export default function DashboardUI() {
                 <CourseGrid
                     title="Best Selling Courses"
                     courses={bestSellingCourses}
+                    browseAllLink="/courses?priceSort=highToLow"
                 />
             </PatternSection>
             <PatternSection
@@ -109,8 +110,9 @@ export default function DashboardUI() {
                         title="Recently Added Courses"
                         courses={recentCourses}
                         showButton={true}
+                        browseAllLink="/courses?recentlyAdded=true"
                     />
-                </div>
+                </div> 
             </PatternSection>
             <PatternSection
                 height="250px"

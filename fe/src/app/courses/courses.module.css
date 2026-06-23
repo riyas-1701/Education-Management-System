@@ -1,0 +1,40 @@
+.pageContainer {
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
+
+.contentWrapper {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    gap: 30px;
+}
+
+.mainContent {
+    flex: 1;
+}
+
+.topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.suggestion {
+    font-size: 14px;
+    color: #666;
+}
+
+.resultsCount {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+.courseGridWrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}

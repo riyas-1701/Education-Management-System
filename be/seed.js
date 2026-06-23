@@ -47,15 +47,18 @@ const seedData = async () => {
             const category = getRandom(createdCategories);
             courses.push({
                 category_id: category._id,
-                course_name: `${getRandom(coursePrefixes)} ${category.category_name} - Edition ${i}`,
-                course_description: `This is an in-depth and comprehensive course about ${category.category_name}. It covers all the essential topics, modern industry practices, and provides hands-on exercises to ensure you master the subject completely. Perfect for all skill levels.`,
+                course_title: `${getRandom(coursePrefixes)} ${category.category_name} - Edition ${i}`,
+                course_subtitle: `Learn everything you need to know about ${category.category_name} in this comprehensive course.`,
+                course_description: `This is an in-depth and comprehensive course about ${category.category_name}. It covers all the essential topics, modern industry practices, and provides hands-on exercises to ensure you master the subject completely. Perfect for all skill levels. In this course, you will learn the foundational concepts, explore advanced methodologies, and build real-world projects from scratch. Whether you are a beginner looking to enter the field or an experienced professional wanting to upgrade your skills, this course offers valuable insights and practical knowledge that will propel your career forward. We have carefully structured the curriculum to provide a seamless learning experience, with clear explanations, practical examples, and interactive assignments. Join thousands of students who have already transformed their careers through this comprehensive program and start your journey towards mastery today.`,
                 course_price: Math.floor(Math.random() * 150) + 10,
                 course_rating: Number((Math.random() * 2 + 3).toFixed(1)), // Rating between 3.0 and 5.0
+                course_level: getRandom(['Beginner', 'Intermediate', 'Advanced']),
                 course_duration: Math.floor(Math.random() * 50) + 2, // 2 to 52 hours
                 students_enrolled: Math.floor(Math.random() * 15000),
                 instructor_id: instructorId,
                 instructor_name: getRandom(instructorNames),
                 instructor_profile: getRandom(instructorProfiles),
+                instructor_description: `An experienced ${getRandom(instructorProfiles)} with over 10 years of industry experience. Passionate about teaching and sharing knowledge with the community to help aspiring developers and designers reach their goals. I have built numerous successful projects and helped thousands of students worldwide.`,
                 instructor_rating: Number((Math.random() * 2 + 3).toFixed(1))
             });
         }

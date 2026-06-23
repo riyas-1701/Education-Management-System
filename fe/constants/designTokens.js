@@ -25,6 +25,7 @@ export const COLORS = {
   lightgrey: "#F5F7FA",
   white: "#FFFFFF",
   black: "#000000",
+  footer: "#1D2026",
   gray100: "#f5f7fa",
   gray200: "#e9eaf0",
   gray300: "#d1d5db",

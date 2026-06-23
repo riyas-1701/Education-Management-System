@@ -10,7 +10,7 @@ export default function CourseCard({ course, index }) {
     const imageIndex = index % 24;
     const {
         _id,
-        course_name,
+        course_title,
         category_name,
         course_price,
         course_rating,
@@ -21,11 +21,11 @@ export default function CourseCard({ course, index }) {
     } = course;
 
     return (
-        <Link href={`/courses/${_id}`} className={styles.card}>
+        <Link href={`/coursedetails/${_id}`} className={styles.card}>
             <div className={styles.courseImage}>
                 <Image
                     src={`/CourseImages/course-image-${imageIndex}.svg`}
-                    alt={course_name}
+                    alt={course_title}
                     fill
                     className={styles.thumb}
                 />
@@ -37,7 +37,7 @@ export default function CourseCard({ course, index }) {
                     <span className={styles.price}>${course_price}</span>
                 </div>
 
-                <h3 className={styles.title}>{course_name}</h3>
+                <h3 className={styles.title}>{course_title}</h3>
                 {/* <h4 className={styles.description}>{course_description}</h4> */}
                 <div className={styles.metaRow}>
                     <span className={styles.rating}>
