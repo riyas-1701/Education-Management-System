@@ -1,6 +1,7 @@
 import CourseDetails from "../../../../Components/CourseDetails/CourseDetails";
-
-
+import RelatedCourses from "../../../../Components/CourseDetails/RelatedCourses";
+import Navbar from "../../../../Components/Dashboard/Navbar";
+import Footer from "../../../../Components/Dashboard/Footer";
 
 export default async function Details({ params }) {
     const { id } = await params;
@@ -8,7 +9,11 @@ export default async function Details({ params }) {
     console.log("ID:", id);
 
     return (
-        <CourseDetails id={id} />
-
+        <>
+            <Navbar />
+            <CourseDetails id={id} />
+            <RelatedCourses currentCourseId={id} />
+            <Footer />
+        </>
     );
 }
