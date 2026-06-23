@@ -2,7 +2,6 @@ import CourseDetails from "../../../../Components/CourseDetails/CourseDetails";
 
 
 
-
 export default async function Details({ params }) {
     const { id } = await params;
 

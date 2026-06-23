@@ -8,7 +8,7 @@ const Course = require("../models/Course");
 exports.createCourse = async (req, res) => {
     try {
         const {
-            category_id,
+            course_category,
             course_title,
             course_subtitle,
             course_description,
@@ -18,7 +18,6 @@ exports.createCourse = async (req, res) => {
             course_level,
             course_duration,
             students_enrolled,
-            instructor_id,
             instructor_name,
             instructor_profile,
             instructor_description,
@@ -27,12 +26,11 @@ exports.createCourse = async (req, res) => {
 
         // Required fields validation
         if (
-            !category_id ||
+            !course_category ||
             !course_title ||
             !course_subtitle ||
             !course_description ||
             !course_price ||
-            !instructor_id ||
             !instructor_name ||
             !instructor_profile ||
             !instructor_description
@@ -40,6 +38,15 @@ exports.createCourse = async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required",
+            });
+        }
+
+        // Find the category by name
+        const categoryDoc = await Category.findOne({ category_name: course_category });
+        if (!categoryDoc) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid category. Please select a valid course category.",
             });
         }
 
@@ -57,15 +64,16 @@ exports.createCourse = async (req, res) => {
 
         // Create course
         const course = await Course.create({
-            category_id,
+            category_id: categoryDoc._id,
             course_title: course_title.trim(),
             course_subtitle,
             course_description,
+            course_for,
             course_price,
             course_rating,
+            course_level,
             course_duration,
             students_enrolled,
-            instructor_id,
             instructor_name,
             instructor_profile,
             instructor_description,
@@ -346,11 +354,11 @@ exports.getAllInstructors = async (req, res) => {
     }
 };
 
-exports.getCourseDetails = async(req, res)=>{
-    try{
+exports.getCourseDetails = async (req, res) => {
+    try {
         const course = await Course.findById(req.params.id).populate('category_id');
 
-        if(!course){
+        if (!course) {
             return res.status(404).json({
                 success: false,
                 message: "Course not found"
@@ -362,7 +370,7 @@ exports.getCourseDetails = async(req, res)=>{
             success: true,
             course
         });
-    }catch(error){
+    } catch (error) {
         console.error("Get Course Details Error:", error);
         res.status(500).json({
             success: false,

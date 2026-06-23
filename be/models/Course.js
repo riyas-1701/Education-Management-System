@@ -46,7 +46,7 @@ const courseSchema = new mongoose.Schema({
             }
         }],
         validate: {
-            validator: function(val) {
+            validator: function (val) {
                 return val.length <= 5;
             },
             message: 'Course for section can have a maximum of 5 lines'
@@ -66,7 +66,6 @@ const courseSchema = new mongoose.Schema({
     },
     course_level: {
         type: String,
-        required: [true, 'Course level is required'],
         trim: true,
         enum: ['Beginner', 'Intermediate', 'Advanced'],
         default: "Beginner"
@@ -86,7 +85,6 @@ const courseSchema = new mongoose.Schema({
     instructor_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
-        required: [true, 'Instructor ID is required']
     },
     instructor_name: {
         type: String,
