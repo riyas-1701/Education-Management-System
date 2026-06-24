@@ -30,20 +30,22 @@ export default function FilterSidebar({ categories = [], filters, onFilterChange
                 <div className={styles.sectionTitle}>Show Results For</div>
                 <div className={styles.filterList}>
                     <label className={styles.filterItem}>
-                        <input 
-                            type="radio" 
+                        <input
+                            type="radio"
                             name="viewType"
+                            value="courses"
                             checked={filters.view === 'courses'}
-                            onChange={() => handleCheckboxChange('view', 'courses')}
+                            onChange={(e) => handleCheckboxChange('view', e.target.value)}
                         />
                         Courses
                     </label>
                     <label className={styles.filterItem}>
-                        <input 
-                            type="radio" 
+                        <input
+                            type="radio"
                             name="viewType"
+                            value="instructors"
                             checked={filters.view === 'instructors'}
-                            onChange={() => handleCheckboxChange('view', 'instructors')}
+                            onChange={(e) => handleCheckboxChange('view', e.target.value)}
                         />
                         Instructors
                     </label>
@@ -54,8 +56,8 @@ export default function FilterSidebar({ categories = [], filters, onFilterChange
                 <div className={styles.sectionTitle}>Recently Added</div>
                 <div className={styles.filterList}>
                     <label className={styles.filterItem}>
-                        <input 
-                            type="checkbox" 
+                        <input
+                            type="checkbox"
                             checked={filters.recentlyAdded}
                             onChange={() => handleCheckboxChange('recentlyAdded', !filters.recentlyAdded)}
                         />
@@ -69,7 +71,7 @@ export default function FilterSidebar({ categories = [], filters, onFilterChange
                 <div className={styles.filterList}>
                     {categories.map((cat, index) => (
                         <label key={index} className={styles.filterItem}>
-                            <input 
+                            <input
                                 type="checkbox"
                                 checked={filters.categories.includes(cat.category_name)}
                                 onChange={() => handleCheckboxChange('categories', cat.category_name)}
@@ -85,7 +87,7 @@ export default function FilterSidebar({ categories = [], filters, onFilterChange
                 <div className={styles.filterList}>
                     {[5, 4, 3, 2, 1].map((star) => (
                         <label key={star} className={styles.filterItem}>
-                            <input 
+                            <input
                                 type="checkbox"
                                 checked={filters.ratings.includes(star)}
                                 onChange={() => handleCheckboxChange('ratings', star)}
@@ -100,29 +102,32 @@ export default function FilterSidebar({ categories = [], filters, onFilterChange
                 <div className={styles.sectionTitle}>Prices</div>
                 <div className={styles.filterList}>
                     <label className={styles.filterItem}>
-                        <input 
+                        <input
                             type="radio"
                             name="priceSort"
+                            value="lowToHigh"
                             checked={filters.priceSort === 'lowToHigh'}
-                            onChange={() => handleCheckboxChange('priceSort', 'lowToHigh')}
+                            onChange={(e) => handleCheckboxChange('priceSort', e.target.value)}
                         />
                         Low to High
                     </label>
                     <label className={styles.filterItem}>
-                        <input 
+                        <input
                             type="radio"
                             name="priceSort"
+                            value="highToLow"
                             checked={filters.priceSort === 'highToLow'}
-                            onChange={() => handleCheckboxChange('priceSort', 'highToLow')}
+                            onChange={(e) => handleCheckboxChange('priceSort', e.target.value)}
                         />
                         High to Low
                     </label>
                     <label className={styles.filterItem}>
-                        <input 
+                        <input
                             type="radio"
                             name="priceSort"
+                            value=""
                             checked={filters.priceSort === ''}
-                            onChange={() => handleCheckboxChange('priceSort', '')}
+                            onChange={(e) => handleCheckboxChange('priceSort', e.target.value)}
                         />
                         Default
                     </label>

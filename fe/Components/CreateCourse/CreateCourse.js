@@ -57,6 +57,13 @@ export default function CreateCourse() {
         }
     };
 
+    const removeCourseFor = (indexToRemove) => {
+        if (formData.course_for.length > 1) {
+            const newCourseFor = formData.course_for.filter((_, index) => index !== indexToRemove);
+            setFormData({ ...formData, course_for: newCourseFor });
+        }
+    };
+
     const handleSaveNext = () => {
         setActiveTab("advanced");
     };
@@ -205,6 +212,18 @@ export default function CreateCourse() {
                                             </div>
                                         </div>
 
+                                        <div className={styles.formGroup}>
+                                            <label className={styles.label}>Course Description</label>
+                                            <textarea
+                                                name="course_description"
+                                                value={formData.course_description}
+                                                onChange={handleChange}
+                                                placeholder="Enter course description"
+                                                className={styles.input}
+                                                style={{ minHeight: "150px", resize: "vertical", fontFamily: "inherit" }}
+                                            />
+                                        </div>
+
                                         <div className={styles.row}>
                                             <div className={styles.col}>
                                                 <label className={styles.label}>Pricing</label>
@@ -253,6 +272,20 @@ export default function CreateCourse() {
                                             </div>
                                         </div>
 
+                                        {/* Form Footer */}
+                                        <div className={styles.footer} style={{ justifyContent: "flex-end" }}>
+                                            <button type="button" onClick={handleSaveNext} className={`${styles.btn} ${styles.btnSaveNext}`}>Save & Next</button>
+                                        </div>
+                                    </form>
+                                </>
+                            )}
+
+                            {activeTab === "advanced" && (
+                                <>
+                                    <div className={styles.sectionHeader}>
+                                        <h2 className={styles.sectionTitle}>Advanced Information</h2>
+                                    </div>
+                                    <form>
                                         <div className={styles.row}>
                                             <div className={styles.col}>
                                                 <div className={styles.formGroup}>
@@ -301,32 +334,6 @@ export default function CreateCourse() {
                                             />
                                         </div>
 
-                                        {/* Form Footer */}
-                                        <div className={styles.footer} style={{ justifyContent: "flex-end" }}>
-                                            <button type="button" onClick={handleSaveNext} className={`${styles.btn} ${styles.btnSaveNext}`}>Save & Next</button>
-                                        </div>
-                                    </form>
-                                </>
-                            )}
-
-                            {activeTab === "advanced" && (
-                                <>
-                                    <div className={styles.sectionHeader}>
-                                        <h2 className={styles.sectionTitle}>Advanced Information</h2>
-                                    </div>
-                                    <form>
-                                        <div className={styles.formGroup}>
-                                            <label className={styles.label}>Course Description</label>
-                                            <textarea
-                                                name="course_description"
-                                                value={formData.course_description}
-                                                onChange={handleChange}
-                                                placeholder="Enter course description"
-                                                className={styles.input}
-                                                style={{ minHeight: "150px", resize: "vertical", fontFamily: "inherit" }}
-                                            />
-                                        </div>
-
                                         <div className={styles.formGroup}>
                                             <label className={styles.label} style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <span>What this Course is for ({formData.course_for.length}/5)</span>
@@ -339,14 +346,25 @@ export default function CreateCourse() {
 
                                             {formData.course_for.map((item, index) => (
                                                 <div key={index} style={{ marginBottom: "10px", display: "flex", alignItems: "center", gap: "10px" }}>
-                                                    <span style={{ color: "#8C94A3", fontSize: "14px" }}>0{index + 1}</span>
+                                                    <span style={{ color: "#8C94A3", fontSize: "14px", minWidth: "20px" }}>0{index + 1}</span>
                                                     <input
                                                         type="text"
                                                         placeholder="Who this course is for..."
                                                         className={styles.input}
                                                         value={item.text}
                                                         onChange={(e) => handleCourseForChange(index, e.target.value)}
+                                                        style={{ flex: 1 }}
                                                     />
+                                                    {formData.course_for.length > 1 && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => removeCourseFor(index)}
+                                                            style={{ background: 'none', border: 'none', color: '#FF6636', cursor: 'pointer', fontSize: '18px', padding: '0 5px' }}
+                                                            title="Remove"
+                                                        >
+                                                            ✕
+                                                        </button>
+                                                    )}
                                                 </div>
                                             ))}
                                         </div>

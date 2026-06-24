@@ -193,7 +193,7 @@ export default function CoursesPage() {
                         {filters.view === 'courses' ? (
                             currentCourses.length > 0 ? (
                                 currentCourses.map((course, idx) => (
-                                    <CourseCard key={course._id || idx} course={course} index={idx} />
+                                    <CourseCard key={course._id ? `${course._id}-${idx}` : idx} course={course} index={idx} />
                                 ))
                             ) : (
                                 <p>No courses found matching your criteria.</p>
@@ -201,7 +201,7 @@ export default function CoursesPage() {
                         ) : (
                             currentInstructors.length > 0 ? (
                                 currentInstructors.map((instructor, idx) => (
-                                    <InstructorCard key={instructor.instructor_id || idx} instructor={instructor} index={idx} />
+                                    <InstructorCard key={instructor.instructor_id ? `${instructor.instructor_id}-${idx}` : idx} instructor={instructor} index={idx} />
                                 ))
                             ) : (
                                 <p>No instructors found matching your criteria.</p>
