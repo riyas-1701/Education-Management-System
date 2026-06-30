@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -18,10 +19,7 @@ exports.createCourse = async (req, res) => {
             course_level,
             course_duration,
             students_enrolled,
-            instructor_name,
-            instructor_profile,
-            instructor_description,
-            instructor_rating
+            instructors
         } = req.body;
 
         // Required fields validation
@@ -31,13 +29,12 @@ exports.createCourse = async (req, res) => {
             !course_subtitle ||
             !course_description ||
             !course_price ||
-            !instructor_name ||
-            !instructor_profile ||
-            !instructor_description
+            !instructors ||
+            !instructors.length
         ) {
             return res.status(400).json({
                 success: false,
-                message: "All fields are required",
+                message: "All fields are required, including at least one instructor",
             });
         }
 
@@ -74,10 +71,8 @@ exports.createCourse = async (req, res) => {
             course_level,
             course_duration,
             students_enrolled,
-            instructor_name,
-            instructor_profile,
-            instructor_description,
-            instructor_rating,
+            instructors,
+            instructor_id: req.user.id,
         });
 
         return res.status(201).json({
@@ -206,14 +201,17 @@ exports.getDashboardData = async (req, res) => {
 
         const instructors = await Course.aggregate([
             {
+                $unwind: "$instructors"
+            },
+            {
                 $group: {
-                    _id: "$instructor_name",
+                    _id: "$instructors.instructor_name",
                     instructor_id: { $first: "$instructor_id" },
-                    instructor_name: { $first: "$instructor_name" },
-                    instructor_profile: { $first: "$instructor_profile" },
+                    instructor_name: { $first: "$instructors.instructor_name" },
+                    instructor_profile: { $first: "$instructors.instructor_profile" },
                     instructor_rating: {
                         $max: {
-                            $toDouble: "$instructor_rating"
+                            $toDouble: "$instructors.instructor_rating"
                         }
                     }
                 }
@@ -311,14 +309,17 @@ exports.getAllInstructors = async (req, res) => {
     try {
         const instructors = await Course.aggregate([
             {
+                $unwind: "$instructors"
+            },
+            {
                 $group: {
-                    _id: "$instructor_name",
+                    _id: "$instructors.instructor_name",
                     instructor_id: { $first: "$instructor_id" },
-                    instructor_name: { $first: "$instructor_name" },
-                    instructor_profile: { $first: "$instructor_profile" },
+                    instructor_name: { $first: "$instructors.instructor_name" },
+                    instructor_profile: { $first: "$instructors.instructor_profile" },
                     instructor_rating: {
                         $max: {
-                            $toDouble: "$instructor_rating"
+                            $toDouble: "$instructors.instructor_rating"
                         }
                     }
                 }
@@ -378,3 +379,47 @@ exports.getCourseDetails = async (req, res) => {
         })
     }
 }
+
+exports.getMyCourses = async (req, res) => {
+    try {
+        const courses = await Course.aggregate([
+            { $match: { instructor_id: new mongoose.Types.ObjectId(req.user.id) } },
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "category_id",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            { $unwind: "$category" },
+            { $sort: { createdAt: -1 } },
+            {
+                $project: {
+                    _id: 1,
+                    category_name: "$category.category_name",
+                    course_title: 1,
+                    course_description: 1,
+                    course_price: 1,
+                    course_rating: 1,
+                    students_enrolled: 1,
+                    course_image: 1,
+                    createdAt: 1
+                }
+            }
+        ]);
+
+        return res.status(200).json({
+            success: true,
+            data: courses
+        });
+
+    } catch (error) {
+        console.error("Get My Courses Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};

@@ -86,30 +86,39 @@ const courseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',
     },
-    instructor_name: {
-        type: String,
-        required: false,
-        trim: true,
-        enum: ['Damon', 'Stefen', 'Klaus', 'Michael', 'Elena', 'Katherine', 'Jessica', 'Aman']
-    },
-    instructor_profile: {
-        type: String,
-        required: false,
-        trim: true,
-        enum: ['Software Developer', 'DevOps', 'UI/UX Designer', 'Backend Developer', 'Frontend Developer', 'Java Developer', 'Senior Developer', 'Tech Lead']
-    },
-    instructor_description: {
-        type: String,
-        required: [true, 'Instructor description is required'],
-        trim: true,
-        minlength: [200, 'Description must be at least 200 characters']
-    },
-    instructor_rating: {
-        type: Number,
-        // required: [true, 'Instructor rating is required'],
-        min: [0, 'Rating cannot be less than 0'],
-        max: [5, 'Rating cannot exceed 5'],
-        default: 3
+    instructors: {
+        type: [{
+            instructor_name: {
+                type: String,
+                required: false,
+                trim: true,
+                enum: ['Damon', 'Stefen', 'Caroline', 'Klaus', 'Michael', 'Bonnie', 'Elena', 'Katherine', 'Jessica', 'Aman']
+            },
+            instructor_profile: {
+                type: String,
+                required: false,
+                trim: true,
+                enum: ['Software Developer', 'DevOps', 'UI/UX Designer', 'Backend Developer', 'Frontend Developer', 'Java Developer', 'Senior Developer', 'Tech Lead']
+            },
+            instructor_description: {
+                type: String,
+                required: [true, 'Instructor description is required'],
+                trim: true,
+                minlength: [200, 'Description must be at least 200 characters']
+            },
+            instructor_rating: {
+                type: Number,
+                min: [0, 'Rating cannot be less than 0'],
+                max: [5, 'Rating cannot exceed 5'],
+                default: 3
+            }
+        }],
+        validate: {
+            validator: function (val) {
+                return val && val.length > 0;
+            },
+            message: 'At least one instructor is required'
+        }
     },
 }, { timestamps: true });
 

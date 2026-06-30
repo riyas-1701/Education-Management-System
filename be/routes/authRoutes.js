@@ -2,7 +2,7 @@ const express = require("express");
 const auth = require("../middleware/authMiddleware");
 const { getCategories, createCategory } = require("../controllers/authCategories");
 const { signup, login, logout, getMe } = require("../controllers/authController");
-const { createCourse, getCourses, getDashboardData, getAllCourses, getAllInstructors, getCourseDetails } = require("../controllers/authCourses");
+const { createCourse, getCourses, getDashboardData, getAllCourses, getAllInstructors, getCourseDetails, getMyCourses } = require("../controllers/authCourses");
 
 const router = express.Router();
 
@@ -14,7 +14,9 @@ router.post("/create-category", createCategory);
 
 router.get("/get-categories", getCategories);
 
-router.post("/create-course", createCourse);
+router.post("/create-course", auth, createCourse);
+
+router.get("/my-courses", auth, getMyCourses);
 
 router.get("/get-courses", getDashboardData);
 
